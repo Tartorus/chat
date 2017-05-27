@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Reg, App } from './app.jsx';
-import { Router, Route, hashHistory } from 'react-router'
+import App from './app.jsx';
+import Reg from './registration/registration.jsx'
+import Loggin from './loggin/loggin.jsx'
+import Chat from './chat/chat.jsx'
+import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 
-
-// ReactDOM.render(<App />, document.getElementById('app'));
 
 ReactDOM.render((
    <Router history={hashHistory}>
-      <Route path="/" component={ App }/>
-      <Route path="/registration" component={ Reg }/>
+      <Route path="/" component={ App }>
+        <IndexRoute component={ Chat } />
+        <Route path="/loggin" component={ Loggin }/>
+        <Route path="/registration" component={ Reg }/>
+      </Route>
    </Router>
 
 ), document.getElementById('app'))

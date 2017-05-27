@@ -1,6 +1,6 @@
 from django.db import models
 
-
+# TODO replace User and Department models to register app 
 class User(models.Model):
     """Модель пользователя"""
 
@@ -25,3 +25,10 @@ class DialogMember(models.Model):
 
     creator = models.BooleanField(null=False, default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Messages(models.Model):
+    """Сообщения диалога"""
+
+    text = models.TextField()
+    user_id = models.ForeignKey('User', on_delete=models.CASCADE, null=False)
+    timestamp = models.DateTimeField(auto_now_add=True)

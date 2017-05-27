@@ -1,23 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router'
+import { Link, Redirect } from 'react-router'
+import Reg from './registration/registration.jsx'
 
-class App extends React.Component {
+export default class App extends React.Component {
+
+
    render() {
       return (
-         <div><Link to='/registration'>Hello World!!!</Link></div>
+        <div>
+          MAIN
+          {this.props.children}
+        </div>
       );
    }
 }
 
-
-class Reg extends React.Component {
-   render() {
-      return (
-         <div>
-            REGISTER
-         </div>
-      );
-   }
+App.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
-
-export { Reg , App};

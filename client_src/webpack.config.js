@@ -2,7 +2,7 @@ var config = {
    entry: './main.js',
 
    output: {
-      path:'/home/hexedit/WebSockets/client',
+      path: __dirname +'/client',
       filename: 'index.js',
    },
 
