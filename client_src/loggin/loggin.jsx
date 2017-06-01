@@ -1,4 +1,5 @@
 import React from 'react';
+import { apiRequest } from '../app.conf.js'
 
 export default class Loggin extends React.Component {
 
@@ -21,11 +22,10 @@ export default class Loggin extends React.Component {
 }
 
   handleSubmit(event) {
-    alert('A login was submitted: ' + this.state.login);
-    alert('A password was submitted: ' + this.state.password);
     event.preventDefault();
+    // console.log(SERVER_IP);
+    apiRequest('loggin', 'post', {})
   }
-
 
    render() {
       return (
