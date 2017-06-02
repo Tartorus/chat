@@ -1,8 +1,9 @@
 function apiRequest(url, method, data=null) {
-  if (!data){
+  if (data){
     var sendingData = new FormData();
-    sendingData.append('login', JSON.stringify(data));
-
+    for (var key in data){
+      sendingData.append(key, JSON.stringify(data[key]));
+    }
   }
   return fetch('api/' + url, {method: method.toUpperCase(), body:sendingData})
 }

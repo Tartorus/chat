@@ -23,7 +23,19 @@ export default class Loggin extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    apiRequest('user/login', 'post', {login:this.state.login, password:this.state.password})
+    apiRequest('user/login', 'post',
+     {
+       login:this.state.login,
+       password:this.state.password
+     }
+   ).then(response=>{
+     if(response.status==200){
+       console.log(response.status);
+     }
+     else {
+       console.log('fail');
+     }
+   })
   }
 
    render() {
