@@ -1,6 +1,5 @@
 from django.db import models
 
-# TODO replace User and Department models to register app 
 class User(models.Model):
     """Модель пользователя"""
 
@@ -11,20 +10,21 @@ class User(models.Model):
     email = models.EmailField()
     department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True)
 
+
 class Department(models.Model):
     """Подразделение пользователя"""
     name = models.CharField(max_length=100)
 
+
 class Dialog(models.Model):
     """Модель диалогов"""
 
-    # creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class DialogMember(models.Model):
     """Участники диалога"""
 
     creator = models.BooleanField(null=False, default=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
 
 class Messages(models.Model):
     """Сообщения диалога"""

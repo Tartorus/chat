@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
+def login(request):
+    if request.method == 'POST':
+        print("POST")
+        print(request.POST.get('login'))
+    return HttpResponse()

@@ -1,5 +1,5 @@
 import React from 'react';
-import { apiRequest } from '../app.conf.js'
+import { apiRequest } from '../utils/request.js'
 
 export default class Loggin extends React.Component {
 
@@ -23,14 +23,13 @@ export default class Loggin extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    // console.log(SERVER_IP);
-    apiRequest('loggin', 'post', {})
+    apiRequest('user/login', 'post', {login:this.state.login, password:this.state.password})
   }
 
    render() {
       return (
          <div>
-            <form onSubmit={this.handleSubmit.bind(this)}>
+            <form onSubmit={this.handleSubmit.bind(this)} name='loginForm'>
               <input placeholder='login' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
               <p><input placeholder='password' type='password' value={this.state.password} onChange={this.handleChange.bind(this)('password')}/></p>
               <p><input type='submit' value='Отправить'/></p>
