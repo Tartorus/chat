@@ -7,7 +7,7 @@ class User(models.Model):
     password = models.CharField(max_length=50, null=False)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    email = models.EmailField()
+    email = models.EmailField(null=False, unique=True)
     department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True)
 
 

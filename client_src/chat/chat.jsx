@@ -12,7 +12,7 @@ export default class Chat extends React.Component {
     }
     else {
       console.log('False');
-      this.context.router.push('loggin')
+      this.context.router.push('login')
     }
   }
 

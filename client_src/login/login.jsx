@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router'
 import { apiRequest } from '../utils/request.js'
 
-export default class Loggin extends React.Component {
+export default class Login extends React.Component {
 
   constructor(props) {
     super(props);
@@ -29,8 +30,9 @@ export default class Loggin extends React.Component {
        password:this.state.password
      }
    ).then(response=>{
+     console.log(response.status);
      if(response.status==200){
-       console.log(response.status);
+       this.context.router.push('/')
      }
      else {
        console.log('fail');
@@ -44,9 +46,13 @@ export default class Loggin extends React.Component {
             <form onSubmit={this.handleSubmit.bind(this)} name='loginForm'>
               <input placeholder='login' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
               <p><input placeholder='password' type='password' value={this.state.password} onChange={this.handleChange.bind(this)('password')}/></p>
-              <p><input type='submit' value='Отправить'/></p>
+              <p><input type='submit' value='loggin'/><Link to={'registration'}>Registration</Link></p>
             </form>
          </div>
       );
    }
+}
+
+Login.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
