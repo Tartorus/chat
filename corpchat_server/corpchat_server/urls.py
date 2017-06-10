@@ -20,5 +20,5 @@ from chat.urls import urlpatterns as chatUrls
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
-    url(r'^api/user/', include(chatUrls))
+    url(r'^api/', include(chatUrls))
 ]

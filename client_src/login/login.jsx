@@ -24,7 +24,7 @@ export default class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    apiRequest('user/login', 'post',
+    apiRequest('login', 'post',
      {
        login:this.state.login,
        password:this.state.password
@@ -46,7 +46,7 @@ export default class Login extends React.Component {
             <form onSubmit={this.handleSubmit.bind(this)} name='loginForm'>
               <input placeholder='login' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
               <p><input placeholder='password' type='password' value={this.state.password} onChange={this.handleChange.bind(this)('password')}/></p>
-              <p><input type='submit' value='loggin'/><Link to={'registration'}>Registration</Link></p>
+              <p><input type='submit' value='login'/><Link to={'registration'}>Registration</Link></p>
             </form>
          </div>
       );

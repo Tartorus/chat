@@ -1,11 +1,21 @@
 function apiRequest(url, method, data=null) {
+  var sendingData = null;
+
   if (data){
-    var sendingData = new FormData();
-    for (var key in data){
-      sendingData.append(key, JSON.stringify(data[key]));
-    }
+    sendingData = JSON.stringify(data);
   }
-  return fetch('api/' + url, {method: method.toUpperCase(), body:sendingData})
+
+  var headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  return fetch(
+    'api/' + url,
+   {
+     method: method.toUpperCase(),
+     body:sendingData,
+     credentials: "same-origin",
+     headers:headers
+   }
+ )
 }
 
 export { apiRequest }

@@ -28,7 +28,7 @@ export default class Reg extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    apiRequest('user/register', 'post',
+    apiRequest('user/', 'post',
      {
        login:this.state.login,
        password:this.state.password,
@@ -38,10 +38,12 @@ export default class Reg extends React.Component {
        department:this.state.department,
      }
    ).then(response=>{
-     if(response.status==200){
-       console.log(response.status);
+     if(response.status==201){
+       console.log('login');
+       this.context.router.push('login')
      }
      else {
+      //  TODO напистаь сообщениео об ошибке
        console.log('fail');
      }
    })
@@ -49,6 +51,7 @@ export default class Reg extends React.Component {
 
    render() {
       return (
+        // TODO кнопка отправить должна быть активной после заполнения всех полей формы
         <div>
            <form onSubmit={this.handleSubmit.bind(this)} name='RegisterForm'>
              Login: <input placeholder='login' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
@@ -62,4 +65,8 @@ export default class Reg extends React.Component {
         </div>
       );
    }
+}
+
+Reg.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
