@@ -1,8 +1,6 @@
-import json
-from django.http import HttpResponse
 from rest_framework import generics
-from chat.models import User
-from chat.serializers import UserSerializer
+from user.models import User
+from user.serializers import UserSerializer
 
 
 class UserList(generics.ListCreateAPIView):

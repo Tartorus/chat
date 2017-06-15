@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     # 'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'user',
     'chat'
 ]
 
@@ -81,8 +82,8 @@ DATABASES = {
         'NAME': 'corpchat',
         'USER': 'corpchat',
         'PASSWORD': '100',
-        'HOST':'localhost',
-        'PORT': ''
+        'HOST':'172.25.1.31',
+        'PORT': '5432'
 
     }
 }
