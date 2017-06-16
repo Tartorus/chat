@@ -2,19 +2,35 @@ from django.db import models
 from user.models import User
 
 
+# TODO при удалении пользователя, каскадно удалятся диалоги, сообщения и т.д.
+
 class Dialog(models.Model):
     """Модель диалогов"""
+
+    create_datetime = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=100, null=True, blank=False)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
 
 class DialogMember(models.Model):
     """Участники диалога"""
 
-    creator = models.BooleanField(null=False, default=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    active = models.BooleanField(default=True, null=False)
 
 class Messages(models.Model):
     """Сообщения диалога"""
 
     text = models.TextField()
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    member = models.ForeignKey(DialogMember, on_delete=models.CASCADE, null=False)
+    sending_time = models.DateTimeField(auto_now_add=True)
+    reading_time = models.DateTimeField()
+
+
+class InDialog(models.Model):
+    """Отрезки нахождения пользователя в диалоге"""
+
+    member = models.ForeignKey(DialogMember, on_delete=models.CASCADE, null=False)
+    enter_time = models.DateTimeField(auto_now_add=True)
+    exit_time = models.DateTimeField()

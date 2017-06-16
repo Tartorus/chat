@@ -14,27 +14,31 @@ export default class ContactList extends React.Component {
 
   }
 
-
   componentWillMount(){
     apiRequest('department', 'get')
       .then(response => response.json())
       .then(data => this.setState({departments:data}))
   }
 
-
-  userList(depId, users){
-    return(
-        <ul key={depId}>
-        {users.map(user=><li key={user.id}> {user.name}</li>)}
-        </ul>
-    )
+  openDialog(user){
+    return function() {
+      console.log(user.id);
+    }
   }
-
 
   departmentList(){
     return(
       this.state.departments.map(dep =>
-        <div key={dep.id}>{dep.name} {this.userList(dep.id, dep.users)}</div>
+        <div key={dep.id}>
+          {dep.name}
+          <ul key={dep.id}>
+            {
+              dep.users.map(user=>
+                <li key={user.id} onClick={this.openDialog(user)} > {user.name}</li>
+              )
+            }
+          </ul>
+        </div>
       )
   )}
 
