@@ -42,13 +42,25 @@ export default class Login extends React.Component {
 
    render() {
       return (
-         <div>
-            <form onSubmit={this.handleSubmit.bind(this)} name='loginForm'>
-              <input placeholder='login' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
-              <p><input placeholder='password' type='password' value={this.state.password} onChange={this.handleChange.bind(this)('password')}/></p>
-              <p><input type='submit' value='login'/><Link to={'registration'}>Registration</Link></p>
-            </form>
-         </div>
+         <div className='loginForm row'>
+           <div className='col-md-4'></div>
+           <div className='col-md-4'>
+              <form onSubmit={this.handleSubmit.bind(this)} name='loginForm'>
+                <div className='form-group'>
+                  <label for='login'>Login</label>
+                  <input id='login' className='form-control' placeholder='login' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
+                  <label for='password'>Password</label>
+                  <p><input id='password' className='form-control' placeholder='password' type='password' value={this.state.password} onChange={this.handleChange.bind(this)('password')}/></p>
+                  <div>
+                    <p><input  className="btn btn-default loginForm_buttons" type='submit' value='login'/>
+                    <Link className="btn btn-default loginForm_buttons" to={'registration'}>Registration</Link></p>
+                  </div>
+                </div>
+              </form>
+          </div>
+          <div className='col-md-4'></div>
+
+        </div>
       );
    }
 }

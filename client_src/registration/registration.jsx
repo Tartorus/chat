@@ -52,16 +52,20 @@ export default class Reg extends React.Component {
    render() {
       return (
         // TODO кнопка отправить должна быть активной после заполнения всех полей формы
-        <div>
-           <form onSubmit={this.handleSubmit.bind(this)} name='RegisterForm'>
-             Login: <input placeholder='login' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
-             <p> Password: <input placeholder='password' type='password' value={this.state.password} onChange={this.handleChange.bind(this)('password')}/></p>
-             <p> Name: <input placeholder='name' type='text' value={this.state.name} onChange={this.handleChange.bind(this)('name')}/></p>
-             <p> Surname: <input placeholder='surname' type='text' value={this.state.surname} onChange={this.handleChange.bind(this)('surname')}/></p>
-             <p> Email: <input placeholder='email' type='text' value={this.state.email} onChange={this.handleChange.bind(this)('email')}/></p>
-             <p> Department: <input placeholder='department' type='text' value={this.state.department} onChange={this.handleChange.bind(this)('department')}/></p>
-             <p><input type='submit'/></p>
+        <div className='registerForm'>
+          <div className='col-md-3'></div>
+          <div className='col-md-6'>
+           <form onSubmit={this.handleSubmit.bind(this)} name='RegisterForm' className='form-group'>
+             <label for='login'>Login</label> <input id='login' placeholder='login' className='form-control' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
+             <p> <label for='password'>Password</label> <input id='password' placeholder='password' className='form-control' type='password' value={this.state.password} onChange={this.handleChange.bind(this)('password')}/></p>
+             <p> <label for='name'>Name</label> <input id='name' placeholder='name' className='form-control' type='text' value={this.state.name} onChange={this.handleChange.bind(this)('name')}/></p>
+             <p> <label for='Surname'>Surname</label> <input id='Surname' placeholder='surname' className='form-control' type='text' value={this.state.surname} onChange={this.handleChange.bind(this)('surname')}/></p>
+             <p> <label for='Email'>Email</label> <input id='Email' placeholder='email' className='form-control' type='text' value={this.state.email} onChange={this.handleChange.bind(this)('email')}/></p>
+             <p> <label for='Department'>Department</label> <input id='Department' placeholder='department' className='form-control' type='text' value={this.state.department} onChange={this.handleChange.bind(this)('department')}/></p>
+             <p><input type='submit' className='btn btn-default'/></p>
            </form>
+         </div>
+         <div className='col-md-3'></div>
         </div>
       );
    }
