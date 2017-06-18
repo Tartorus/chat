@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router'
 import { apiRequest } from '../utils/request.js'
-import Reg from '../registration/registration.jsx'
+import ContactList from './contactList.jsx'
 
 export default class Chat extends React.Component {
 
 
   componentWillMount(){
     let userCookie = document.cookie;
-    // TODO кукпи ставятся только со
     if (!userCookie){
       this.context.router.push('login')
     }
@@ -31,10 +30,15 @@ export default class Chat extends React.Component {
 
    render() {
       return (
-        <div>
-          CHAT
+        <div className='row'>
+
+          <div className='col-xs-3'>
+            <ContactList/>
+          </div>
+
+          <div className='col-xs-9'> dialogs </div>
           <p><button onClick={this.logout.bind(this)}>logout</button></p>
-      </div>
+        </div>
       );
    }
 }

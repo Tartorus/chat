@@ -1,34 +1,36 @@
 from django.db import models
-
-class User(models.Model):
-    """Модель пользователя"""
-
-    login = models.CharField(max_length=50, null=False, unique=True)
-    password = models.CharField(max_length=50, null=False)
-    name = models.CharField(max_length=50)
-    surname = models.CharField(max_length=50)
-    email = models.EmailField(null=False, unique=True)
-    department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True)
+from user.models import User
 
 
-class Department(models.Model):
-    """Подразделение пользователя"""
-    name = models.CharField(max_length=100)
-
+# TODO при удалении пользователя, каскадно удалятся диалоги, сообщения и т.д.
 
 class Dialog(models.Model):
     """Модель диалогов"""
+
+    create_datetime = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=100, null=True, blank=False)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
 
 class DialogMember(models.Model):
     """Участники диалога"""
 
-    creator = models.BooleanField(null=False, default=False)
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    active = models.BooleanField(default=True, null=False)
 
 class Messages(models.Model):
     """Сообщения диалога"""
 
     text = models.TextField()
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE, null=False)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    member = models.ForeignKey(DialogMember, on_delete=models.CASCADE, null=False)
+    sending_time = models.DateTimeField(auto_now_add=True)
+    reading_time = models.DateTimeField()
+
+
+class InDialog(models.Model):
+    """Отрезки нахождения пользователя в диалоге"""
+
+    member = models.ForeignKey(DialogMember, on_delete=models.CASCADE, null=False)
+    enter_time = models.DateTimeField(auto_now_add=True)
+    exit_time = models.DateTimeField()
