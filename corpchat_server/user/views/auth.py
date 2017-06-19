@@ -5,27 +5,45 @@ from django.contrib.sessions.models import Session
 from user.models import User
 from user.serializers import UserSerializer
 
+
 def login(request):
-    response = HttpResponse()
     if request.method == 'POST':
         data = json.loads(request.body.decode())
-        if not data.get('password') or not data.get('login'):
-            response.status_code = 401
+        username = data.get('login')
+        password = data.get('password')
+        print(request.user)
+        user = auth.authenticate(request, username=username, password=password)
+        print(user)
+        if user is not None:
+            print('LOGIN')
+            response = JsonResponse(UserSerializer(user).data)
         else:
-            user = User.objects.get(login=data['login'])
-            if data['password'] != user.password:
-                response.status_code = 401
-            else:
-                if not request.session.exists(request.session.session_key):
-                    request.session.create()
-                # TODO устанавливаются 2 куки session_id и sessionid.
-                # Если записывать куку с ключем  sessionid, то приходится логинится
-                # несколько раз
-                response = JsonResponse(UserSerializer(user).data)
-                response.set_cookie('session_id', request.session.session_key)
+            response = HttpResponse(status=404)
     else:
-        response = 404
+        response = HttpResponse(status=404)
     return response
+
+# def login(request):
+#     response = HttpResponse()
+#     if request.method == 'POST':
+#         data = json.loads(request.body.decode())
+#         if not data.get('password') or not data.get('login'):
+#             response.status_code = 401
+#         else:
+#             user = User.objects.get(login=data['login'])
+#             if data['password'] != user.password:
+#                 response.status_code = 401
+#             else:
+#                 if not request.session.exists(request.session.session_key):
+#                     request.session.create()
+#                 # TODO устанавливаются 2 куки session_id и sessionid.
+#                 # Если записывать куку с ключем  sessionid, то приходится логинится
+#                 # несколько раз
+#                 response = JsonResponse(UserSerializer(user).data)
+#                 response.set_cookie('session_id', request.session.session_key)
+#     else:
+#         response = 404
+#     return response
 
 
 def logout(request):
