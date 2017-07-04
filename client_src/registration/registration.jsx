@@ -28,18 +28,18 @@ export default class Reg extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    apiRequest('user/', 'post',
-     {
-       login:this.state.login,
-       password:this.state.password,
-       name:this.state.name,
-       surname:this.state.surname,
-       email:this.state.email,
-       department:this.state.department,
-     }
-   ).then(response=>{
+    let data = {
+      login:this.state.login,
+      password:this.state.password,
+      name:this.state.name,
+      surname:this.state.surname,
+      email:this.state.email,
+      department:this.state.department,
+    }
+
+    apiRequest('user', 'post', data)
+    .then(response=>{
      if(response.status==201){
-       console.log('login');
        this.context.router.push('login')
      }
      else {
@@ -56,12 +56,12 @@ export default class Reg extends React.Component {
           <div className='col-md-3'></div>
           <div className='col-md-6'>
            <form onSubmit={this.handleSubmit.bind(this)} name='RegisterForm' className='form-group'>
-             <label for='login'>Login</label> <input id='login' placeholder='login' className='form-control' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
-             <p> <label for='password'>Password</label> <input id='password' placeholder='password' className='form-control' type='password' value={this.state.password} onChange={this.handleChange.bind(this)('password')}/></p>
-             <p> <label for='name'>Name</label> <input id='name' placeholder='name' className='form-control' type='text' value={this.state.name} onChange={this.handleChange.bind(this)('name')}/></p>
-             <p> <label for='Surname'>Surname</label> <input id='Surname' placeholder='surname' className='form-control' type='text' value={this.state.surname} onChange={this.handleChange.bind(this)('surname')}/></p>
-             <p> <label for='Email'>Email</label> <input id='Email' placeholder='email' className='form-control' type='text' value={this.state.email} onChange={this.handleChange.bind(this)('email')}/></p>
-             <p> <label for='Department'>Department</label> <input id='Department' placeholder='department' className='form-control' type='text' value={this.state.department} onChange={this.handleChange.bind(this)('department')}/></p>
+             <label htmlFor='login'>Login</label> <input id='login' placeholder='login' className='form-control' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
+             <p> <label htmlFor='password'>Password</label> <input id='password' placeholder='password' className='form-control' type='password' value={this.state.password} onChange={this.handleChange.bind(this)('password')}/></p>
+             <p> <label htmlFor='name'>Name</label> <input id='name' placeholder='name' className='form-control' type='text' value={this.state.name} onChange={this.handleChange.bind(this)('name')}/></p>
+             <p> <label htmlFor='Surname'>Surname</label> <input id='Surname' placeholder='surname' className='form-control' type='text' value={this.state.surname} onChange={this.handleChange.bind(this)('surname')}/></p>
+             <p> <label htmlFor='Email'>Email</label> <input id='Email' placeholder='email' className='form-control' type='text' value={this.state.email} onChange={this.handleChange.bind(this)('email')}/></p>
+             <p> <label htmlFor='Department'>Department</label> <input id='Department' placeholder='department' className='form-control' type='text' value={this.state.department} onChange={this.handleChange.bind(this)('department')}/></p>
              <p><input type='submit' className='btn btn-default'/></p>
            </form>
          </div>

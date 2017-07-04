@@ -7,7 +7,7 @@ class User(AbstractBaseUser):
     """Модель пользователя"""
 
     login = models.CharField(max_length=50, null=False, unique=True)
-    password = models.CharField(max_length=50, null=False)
+    password = models.CharField(max_length=128, null=False)
     name = models.CharField(max_length=50, null=False, blank=False)
     surname = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(null=False, unique=True)

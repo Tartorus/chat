@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router'
 import { apiRequest } from '../utils/request.js'
-import lodash from 'lodash'
 
 
 export default class ContactList extends React.Component {
@@ -15,8 +14,20 @@ export default class ContactList extends React.Component {
   }
 
   componentWillMount(){
-    apiRequest('department', 'get')
-      .then(response => response.json())
+    var response = apiRequest('department', 'get')
+      .then(response =>
+        {
+          if (response.status == 200){
+            return response.json();
+          }
+          else {
+              throw Error(response.statusText);
+          }
+        }
+      ).catch(error => {
+        console.log(error);
+        this.context.router.push('login')
+      })
       .then(data => this.setState({departments:data}))
   }
 
@@ -30,14 +41,21 @@ export default class ContactList extends React.Component {
     return(
       this.state.departments.map(dep =>
         <div key={dep.id}>
-          {dep.name}
-          <ul key={dep.id}>
-            {
-              dep.users.map(user=>
-                <li key={user.id} onClick={this.openDialog(user)} > {user.name}</li>
-              )
-            }
-          </ul>
+          <button className='btn btn-info' type='button'
+           id={'b' + dep.id} data-toggle='collapse' data-target={'#ul' + dep.id}>
+
+            {dep.name} <span className='caret'></span>
+
+          </button>
+          <div  className='collapse' id={'ul' + dep.id}>
+            <ul key={dep.id}>
+              {
+                dep.users.map(user=>
+                  <li key={user.id} onClick={this.openDialog(user)}>{user.name} {user.surname}</li>
+                )
+              }
+            </ul>
+          </div>
         </div>
       )
   )}
@@ -45,6 +63,7 @@ export default class ContactList extends React.Component {
 
 
   render() {
+    console.log(this.departmentList());
     return (
       <div>
         <div> icons </div>
@@ -55,4 +74,8 @@ export default class ContactList extends React.Component {
     )
   }
 
+}
+
+ContactList.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }

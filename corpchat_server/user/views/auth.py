@@ -15,7 +15,7 @@ def login(request):
         user = auth.authenticate(request, username=username, password=password)
         print(user)
         if user is not None:
-            print('LOGIN')
+            auth.login(request, user)
             response = JsonResponse(UserSerializer(user).data)
         else:
             response = HttpResponse(status=404)

@@ -3,15 +3,8 @@ import { Link, Redirect } from 'react-router'
 import { apiRequest } from '../utils/request.js'
 import ContactList from './contactList.jsx'
 
+
 export default class Chat extends React.Component {
-
-
-  componentWillMount(){
-    let userCookie = document.cookie;
-    if (!userCookie){
-      this.context.router.push('login')
-    }
-  }
 
   logout(event){
     apiRequest('logout', 'post', {})
@@ -36,7 +29,7 @@ export default class Chat extends React.Component {
             <ContactList/>
           </div>
 
-          <div className='col-xs-9'> dialogs </div>
+          <div className='col-xs-9 chatWindow'> dialogs </div>
           <p><button onClick={this.logout.bind(this)}>logout</button></p>
         </div>
       );

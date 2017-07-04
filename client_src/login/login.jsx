@@ -46,9 +46,9 @@ export default class Login extends React.Component {
            <div className='col-md-4'>
               <form onSubmit={this.handleSubmit.bind(this)} name='loginForm'>
                 <div className='form-group'>
-                  <label for='login'>Login</label>
+                  <label htmlFor='login'>Login</label>
                   <input id='login' className='form-control' placeholder='login' type='text' value={this.state.login} onChange={this.handleChange.bind(this)('login')}/>
-                  <label for='password'>Password</label>
+                  <label htmlFor='password'>Password</label>
                   <p><input id='password' className='form-control' placeholder='password' type='password' value={this.state.password} onChange={this.handleChange.bind(this)('password')}/></p>
                   <div>
                     <p><input  className="btn btn-default loginForm_buttons" type='submit' value='login'/>

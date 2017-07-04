@@ -20,9 +20,9 @@ from . import views
 urlpatterns = [
     url(r'^login', views.login),
     url(r'^logout', views.logout),
-    url(r'^user/$', views.UserList.as_view()),
+    url(r'^user$', views.UserList.as_view()),
     url(r'^user/(?P<pk>[0-9]+)$', views.UserDetail.as_view()),
-    url(r'^department/$', views.DepartmentList.as_view()),
+    url(r'^department$', views.DepartmentList.as_view()),
     url(r'^department/(?P<pk>[0-9]+)$', views.DepartmentDetail.as_view()),
 
 ]

@@ -9,3 +9,10 @@
 .loginForm_buttons {
   margin-right: 3%;
 }
+
+
+.chatWindow{
+  height: 300px;
+  width: 700px;
+  background-color: #8AB8FF;
+}

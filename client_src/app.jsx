@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router'
 import Reg from './registration/registration.jsx'
 
+
 export default class App extends React.Component {
 
 
