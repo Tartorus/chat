@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router'
 import { apiRequest } from '../utils/request.js'
-import ContactList from './contactList.jsx'
+import ChatPanel from './chatpanel.jsx'
 
 
 export default class Chat extends React.Component {
@@ -26,7 +26,7 @@ export default class Chat extends React.Component {
         <div className='row'>
 
           <div className='col-xs-3'>
-            <ContactList/>
+            <ChatPanel/>
           </div>
 
           <div className='col-xs-9 chatWindow'> dialogs </div>

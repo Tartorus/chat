@@ -3,11 +3,13 @@ import { Link, Redirect } from 'react-router'
 import { apiRequest } from '../utils/request.js'
 
 
-export default class ContactList extends React.Component {
+export default class ChatPanel extends React.Component {
 
   constructor(props){
+    console.log('CONSTR');
     super(props);
     this.state = {
+      tab: 'contacts',
       departments: []
     }
 
@@ -41,12 +43,8 @@ export default class ContactList extends React.Component {
     return(
       this.state.departments.map(dep =>
         <div key={dep.id}>
-          <button className='btn btn-info' type='button'
-           id={'b' + dep.id} data-toggle='collapse' data-target={'#ul' + dep.id}>
 
-            {dep.name} <span className='caret'></span>
-
-          </button>
+          <span data-toggle='collapse' data-target={'#ul' + dep.id} className='glyphicon glyphicon-expand'> {dep.name} </span>
           <div  className='collapse' id={'ul' + dep.id}>
             <ul key={dep.id}>
               {
@@ -60,15 +58,50 @@ export default class ContactList extends React.Component {
       )
   )}
 
+  // mainContent(){
+  //   if(this.state.tab == "contacts"){
+  //     return this.departmentList()
+  //   }
+  //   else {
+  //     return 'another state'
+  //   }
+  // }
 
+  onClickContact(){
+    var that = this;
+    return function() {
+      that.state.tab = 'contacts'
+
+    }
+  }
+
+  onClickDialogs(){
+    var that = this;
+    return function() {
+      that.setState({tab:'dialogs'})
+
+    }
+  }
 
   render() {
     console.log(this.departmentList());
+    console.log('reload chat panel ' + this.state.tab );
     return (
       <div>
-        <div> icons </div>
+        <div className='row'>
+          <div className='col-xs-6'>
+            <span className='glyphicon glyphicon-comment' onClick={this.onClickDialogs()}></span>
+           </div>
+           <div className='col-xs-6'>
+            <span className='glyphicon glyphicon-book'  onClick={this.onClickContact()}></span>
+          </div>
+
+         </div>
         <div>
-            {this.departmentList()}
+          <div style={{display:"none"}}>
+            { this.departmentList() }
+          </div>
+          <div> another state </div>
         </div>
       </div>
     )
@@ -76,6 +109,6 @@ export default class ContactList extends React.Component {
 
 }
 
-ContactList.contextTypes = {
+ChatPanel.contextTypes = {
   router: React.PropTypes.object.isRequired
 }
