@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'corpchat',
         'USER': 'corpchat',
         'PASSWORD': '100',
-        'HOST':'172.25.1.31',
+        'HOST':'127.0.0.1',
         'PORT': '5432'
 
     }

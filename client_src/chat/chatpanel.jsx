@@ -1,36 +1,15 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router'
 import { apiRequest } from '../utils/request.js'
-
+import CPTooBar from './chatpanel_toolbar.jsx'
 
 export default class ChatPanel extends React.Component {
 
   constructor(props){
-    console.log('CONSTR');
     super(props);
     this.state = {
-      tab: 'contacts',
-      departments: []
+      tab: 'contacts'
     }
-
-  }
-
-  componentWillMount(){
-    var response = apiRequest('department', 'get')
-      .then(response =>
-        {
-          if (response.status == 200){
-            return response.json();
-          }
-          else {
-              throw Error(response.statusText);
-          }
-        }
-      ).catch(error => {
-        console.log(error);
-        this.context.router.push('login')
-      })
-      .then(data => this.setState({departments:data}))
   }
 
   openDialog(user){
@@ -41,7 +20,7 @@ export default class ChatPanel extends React.Component {
 
   departmentList(){
     return(
-      this.state.departments.map(dep =>
+      this.props.departments.map(dep =>
         <div key={dep.id}>
 
           <span data-toggle='collapse' data-target={'#ul' + dep.id} className='glyphicon glyphicon-expand'> {dep.name} </span>
@@ -58,51 +37,40 @@ export default class ChatPanel extends React.Component {
       )
   )}
 
-  // mainContent(){
-  //   if(this.state.tab == "contacts"){
-  //     return this.departmentList()
-  //   }
-  //   else {
-  //     return 'another state'
-  //   }
-  // }
-
-  onClickContact(){
+  onClickTab(value){
     var that = this;
     return function() {
-      that.state.tab = 'contacts'
-
+      that.setState({tab:value})
+      var contacts = document.getElementById('contacts');
+      var dialogs = document.getElementById('dialogs');
+      var turn_off;
+      var turn_on;
+      if (value == 'contacts'){
+        turn_on = contacts;
+        turn_off = dialogs;
+      }
+      else {
+        turn_on = dialogs;
+        turn_off = contacts;
+      }
+      turn_on.style.display='block';
+      turn_off.style.display='none'
     }
   }
 
-  onClickDialogs(){
-    var that = this;
-    return function() {
-      that.setState({tab:'dialogs'})
-
-    }
-  }
 
   render() {
     console.log(this.departmentList());
     console.log('reload chat panel ' + this.state.tab );
     return (
       <div>
-        <div className='row'>
-          <div className='col-xs-6'>
-            <span className='glyphicon glyphicon-comment' onClick={this.onClickDialogs()}></span>
-           </div>
-           <div className='col-xs-6'>
-            <span className='glyphicon glyphicon-book'  onClick={this.onClickContact()}></span>
+        <CPTooBar tab={this.state.tab} contactButton={this.onClickTab('contacts')} dialogButton={this.onClickTab('dialogs')}/>
+          <div>
+            <div id='contacts'>
+              { this.departmentList() }
+            </div>
+            <div id='dialogs' style={{display:'none'}}> dialog list </div>
           </div>
-
-         </div>
-        <div>
-          <div style={{display:"none"}}>
-            { this.departmentList() }
-          </div>
-          <div> another state </div>
-        </div>
       </div>
     )
   }

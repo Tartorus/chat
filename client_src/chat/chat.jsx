@@ -6,6 +6,31 @@ import ChatPanel from './chatpanel.jsx'
 
 export default class Chat extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.state = {
+      departments: []
+    }
+  }
+
+  componentWillMount(){
+    var response = apiRequest('department', 'get')
+      .then(response =>
+        {
+          if (response.status == 200){
+            return response.json();
+          }
+          else {
+              throw Error(response.statusText);
+          }
+        }
+      ).catch(error => {
+        console.log(error);
+        this.context.router.push('login')
+      })
+      .then(data => this.setState({departments:data}))
+  }
+
   logout(event){
     apiRequest('logout', 'post', {})
     .then(
@@ -26,7 +51,7 @@ export default class Chat extends React.Component {
         <div className='row'>
 
           <div className='col-xs-3'>
-            <ChatPanel/>
+            <ChatPanel departments={this.state.departments}/>
           </div>
 
           <div className='col-xs-9 chatWindow'> dialogs </div>
