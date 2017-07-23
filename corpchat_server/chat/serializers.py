@@ -2,9 +2,6 @@ from rest_framework import serializers
 from .models import Dialog, DialogMember
 
 
-
-
-
 class DialogMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = DialogMember

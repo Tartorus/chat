@@ -18,4 +18,11 @@ function apiRequest(url, method, data=null) {
  )
 }
 
-export { apiRequest }
+var appUrls = {
+  user: 'hierarchy/user',
+  userLogin: 'hierarchy/user/login',
+  userLogout: 'hierarchy/user/logout',
+  departmentList: 'hierarchy/department/'
+}
+
+export { apiRequest, appUrls }

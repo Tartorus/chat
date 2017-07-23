@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router'
-import { apiRequest } from '../utils/request.js'
+import { apiRequest, appUrls } from '../utils/request.js'
 
 export default class Login extends React.Component {
 
@@ -23,7 +23,7 @@ export default class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    apiRequest('login', 'post',
+    apiRequest(appUrls['userLogin'], 'post',
      {
        login:this.state.login,
        password:this.state.password

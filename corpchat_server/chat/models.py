@@ -1,5 +1,5 @@
 from django.db import models
-from user.models import User
+from hierarchy.models import User
 
 
 # TODO при удалении пользователя, каскадно удалятся диалоги, сообщения и т.д.

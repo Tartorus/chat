@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router'
-import { apiRequest } from '../utils/request.js'
+import { apiRequest, appUrls } from '../utils/request.js'
 import ChatPanel from './chatpanel.jsx'
 
 
@@ -14,7 +14,7 @@ export default class Chat extends React.Component {
   }
 
   componentWillMount(){
-    var response = apiRequest('department', 'get')
+    var response = apiRequest(appUrls['departmentList'], 'get')
       .then(response =>
         {
           if (response.status == 200){
@@ -32,7 +32,7 @@ export default class Chat extends React.Component {
   }
 
   logout(event){
-    apiRequest('logout', 'post', {})
+    apiRequest(appUrls['userLogout'], 'post', {})
     .then(
       response=>{
         console.log('logout');

@@ -4,8 +4,6 @@ from .views import *
 
 urlpatterns = [
     url(r'^dialog$', DialogList.as_view()),
-
-
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

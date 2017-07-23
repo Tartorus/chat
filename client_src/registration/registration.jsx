@@ -1,5 +1,5 @@
 import React from 'react';
-import { apiRequest } from '../utils/request.js'
+import { apiRequest, appUrls } from '../utils/request.js'
 
 //  TODO валидация полей
 export default class Reg extends React.Component {
@@ -37,7 +37,7 @@ export default class Reg extends React.Component {
       department:this.state.department,
     }
 
-    apiRequest('user', 'post', data)
+    apiRequest(appUrls['user'], 'post', data)
     .then(response=>{
      if(response.status==201){
        this.context.router.push('login')

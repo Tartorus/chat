@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     # 'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'user',
+    'hierarchy',
+    # 'user',
     'chat'
 ]
 
@@ -109,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_REDIRECT_URL = '/login'
 
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'hierarchy.User'
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 

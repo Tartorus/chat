@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from user.urls import urlpatterns as userUrls
+from hierarchy.urls import urlpatterns as hierarchyUrls
 from chat.urls import urlpatterns as chatUrls
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(userUrls)),
-    url(r'^api/chat/', include(chatUrls))
+    url(r'^hierarchy/', include(hierarchyUrls)),
+    url(r'^chat/', include(chatUrls))
 ]

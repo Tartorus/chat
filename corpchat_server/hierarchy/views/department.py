@@ -1,11 +1,10 @@
 from rest_framework import generics, permissions, authentication
-from user.models import Department
-from user.serializers import DepartmentSerializer
+from hierarchy.models import Department
+from hierarchy.serializers import DepartmentSerializer
 
 
 class DepartmentList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
-
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
