@@ -9,20 +9,21 @@ class Dialog(models.Model):
 
     create_datetime = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=100, null=True, blank=False)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class DialogMember(models.Model):
     """Участники диалога"""
 
-    dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE, related_name='members')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name='dialogs')
     active = models.BooleanField(default=True, null=False)
 
 class Messages(models.Model):
     """Сообщения диалога"""
 
     text = models.TextField()
+    dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE)
     member = models.ForeignKey(DialogMember, on_delete=models.CASCADE, null=False)
     sending_time = models.DateTimeField(auto_now_add=True)
     reading_time = models.DateTimeField()
