@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, Redirect } from 'react-router'
 import { apiRequest } from '../utils/request.js'
 import CPTooBar from './chatpanel_toolbar.jsx'
+import CPDialog from './chatpanel_dialog.jsx'
+import CPContacts from './chatpanel_contacts.jsx'
 
 export default class ChatPanel extends React.Component {
 
@@ -11,31 +13,6 @@ export default class ChatPanel extends React.Component {
       tab: 'contacts'
     }
   }
-
-  openDialog(user){
-    return function() {
-      console.log(user.id);
-    }
-  }
-
-  departmentList(){
-    return(
-      this.props.departments.map(dep =>
-        <div key={dep.id}>
-
-          <span data-toggle='collapse' data-target={'#ul' + dep.id} className='glyphicon glyphicon-expand'> {dep.name} </span>
-          <div  className='collapse' id={'ul' + dep.id}>
-            <ul key={dep.id}>
-              {
-                dep.users.map(user=>
-                  <li key={user.id} onClick={this.openDialog(user)}>{user.name} {user.surname}</li>
-                )
-              }
-            </ul>
-          </div>
-        </div>
-      )
-  )}
 
   onClickTab(value){
     var that = this;
@@ -60,16 +37,15 @@ export default class ChatPanel extends React.Component {
 
 
   render() {
-    console.log(this.departmentList());
-    console.log('reload chat panel ' + this.state.tab );
+    console.log('render ChatPanel');
     return (
       <div>
         <CPTooBar tab={this.state.tab} contactButton={this.onClickTab('contacts')} dialogButton={this.onClickTab('dialogs')}/>
           <div>
             <div id='contacts'>
-              { this.departmentList() }
+                <CPContacts userDialogsMap={this.props.userDialogsMap} departments={this.props.departments}/>
             </div>
-            <div id='dialogs' style={{display:'none'}}> dialog list </div>
+            <div id='dialogs' style={{display:'none'}}> <CPDialog dialogs={this.props.userDialogs}/> </div>
           </div>
       </div>
     )

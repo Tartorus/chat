@@ -1,6 +1,7 @@
 function apiRequest(url, method, data=null) {
   var sendingData = null;
 
+  console.log(data);
   if (data){
     sendingData = JSON.stringify(data);
   }
@@ -22,7 +23,8 @@ var appUrls = {
   user: 'hierarchy/user',
   userLogin: 'hierarchy/user/login',
   userLogout: 'hierarchy/user/logout',
-  departmentList: 'hierarchy/department/'
+  departmentList: 'hierarchy/department',
+  dialogList: 'chat/dialog'
 }
 
 export { apiRequest, appUrls }

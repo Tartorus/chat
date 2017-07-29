@@ -9,7 +9,9 @@ export default class Chat extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      departments: []
+      departments: [],
+      dialogs: [],
+      userDialogsMap: {}
     }
   }
 
@@ -28,14 +30,44 @@ export default class Chat extends React.Component {
         console.log(error);
         this.context.router.push('login')
       })
-      .then(data => this.setState({departments:data}))
-  }
+      .then(data => {
+        console.log(data);
+        this.setState({departments:data})
+      });
+
+    apiRequest(appUrls['dialogList'] ,'get')
+      .then(response =>
+        {  if (response.status == 200){
+            return response.json();
+          }
+          else {
+              throw Error(response.statusText);
+          }
+        }
+      ).catch(error => {
+        console.error(error);
+      })
+      .then(data => {
+        this.setState({dialogs:data});
+        let _userDialogsMap = {};
+
+        for (var i = 0; i < data.length; i++) {
+          let dialog = data[i];
+
+          for (var j = 0; j < dialog.members.length; j++) {
+            if (dialog.group === false){
+              _userDialogsMap[dialog.members[j].user] = dialog
+            }
+          }
+        }
+        this.setState({userDialogsMap: _userDialogsMap})
+      })
+    };
 
   logout(event){
     apiRequest(appUrls['userLogout'], 'post', {})
     .then(
       response=>{
-        console.log('logout');
         if(response.status==200){
           this.context.router.push('login')
         }
@@ -51,7 +83,7 @@ export default class Chat extends React.Component {
         <div className='row'>
 
           <div className='col-xs-3'>
-            <ChatPanel departments={this.state.departments}/>
+            <ChatPanel departments={this.state.departments} userDialogs={this.state.dialogs} userDialogsMap={this.state.userDialogsMap}/>
           </div>
 
           <div className='col-xs-9 chatWindow'> dialogs </div>

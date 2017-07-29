@@ -11,9 +11,7 @@ def login(request):
         data = json.loads(request.body.decode())
         username = data.get('login')
         password = data.get('password')
-        print(request.user)
         user = auth.authenticate(request, username=username, password=password)
-        print(user)
         if user is not None:
             auth.login(request, user)
             response = JsonResponse(UserSerializer(user).data)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Dialog, DialogMember
+from .models import Dialog, DialogMember, Messages
 
 
 class DialogMemberSerializer(serializers.ModelSerializer):
@@ -8,9 +8,23 @@ class DialogMemberSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class DialogSerializer(serializers.ModelSerializer):
+class DialogMemberSerializer(serializers.ModelSerializer):
     members = DialogMemberSerializer(many=True, read_only=True)
 
     class Meta:
         model = Dialog
-        fields = ("id", 'create_datetime', 'name', 'creator', 'members')
+        fields = ("id", 'create_datetime', 'name', 'creator', 'group', 'members')
+
+
+class MessagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Messages
+        fields = '__all__'
+
+
+class DialogMessagesSerializer(serializers.ModelSerializer):
+    messages = MessagesSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Dialog
+        fields = ("id", 'create_datetime', 'name', 'creator', 'messages')
