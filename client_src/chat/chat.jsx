@@ -15,8 +15,15 @@ export default class Chat extends React.Component {
     }
   }
 
+  updateUserDialogs(){
+    var that = this;
+    return function (newDialogs) {
+      that.setState({dialogs:newDialogs})
+    }
+  }
+
   componentWillMount(){
-    var response = apiRequest(appUrls['departmentList'], 'get')
+    var response = apiRequest(appUrls['departmentList'], 'get', null, {'user':false})
       .then(response =>
         {
           if (response.status == 200){
@@ -83,7 +90,7 @@ export default class Chat extends React.Component {
         <div className='row'>
 
           <div className='col-xs-3'>
-            <ChatPanel departments={this.state.departments} userDialogs={this.state.dialogs} userDialogsMap={this.state.userDialogsMap}/>
+            <ChatPanel departments={this.state.departments} userDialogs={this.state.dialogs} userDialogsMap={this.state.userDialogsMap} updateUserDialogs = {this.updateUserDialogs()}/>
           </div>
 
           <div className='col-xs-9 chatWindow'> dialogs </div>

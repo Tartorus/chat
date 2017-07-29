@@ -1,4 +1,4 @@
-function apiRequest(url, method, data=null) {
+function apiRequest(url, method, data=null, params=null) {
   var sendingData = null;
 
   console.log(data);
@@ -7,9 +7,13 @@ function apiRequest(url, method, data=null) {
   }
 
   var headers = new Headers();
+  url = 'api/' + url
+  if (params != null || params != undefined){
+      url += toQueryString(params)
+  }
   headers.append("Content-Type", "application/json");
   return fetch(
-    'api/' + url,
+    url,
    {
      method: method.toUpperCase(),
      body:sendingData,
@@ -18,6 +22,19 @@ function apiRequest(url, method, data=null) {
    }
  )
 }
+
+
+function toQueryString(qObject) {
+  var result = '?';
+  for (var key in qObject){
+    // if (typeof key == 'string'){
+    //   throw 'key ' + key + ' not string'
+    // }
+    result += key + '=' + qObject[key] + '&'
+  };
+  return result.slice(0, -1)   
+}
+
 
 var appUrls = {
   user: 'hierarchy/user',

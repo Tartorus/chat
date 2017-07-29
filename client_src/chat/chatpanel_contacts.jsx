@@ -15,6 +15,18 @@ export default class CPContacts extends React.Component {
       let userDialogsMap = that.props.userDialogsMap;
       if (userDialogsMap[user.id] === undefined){
         apiRequest(appUrls['dialogList'], 'post', {'users': [user.id]})
+        .then(response =>
+          {  if (response.status == 200){
+              return response.json();
+            }
+            else {
+                throw Error(response.statusText);
+            }
+          }
+        ).catch(error => {
+          console.error(error);
+        })
+        .then(data => that.props.updateUserDialogs(data))
       }
       else {
         console.log(userDialogsMap[user.id]);

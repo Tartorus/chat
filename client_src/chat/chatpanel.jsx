@@ -43,7 +43,7 @@ export default class ChatPanel extends React.Component {
         <CPTooBar tab={this.state.tab} contactButton={this.onClickTab('contacts')} dialogButton={this.onClickTab('dialogs')}/>
           <div>
             <div id='contacts'>
-                <CPContacts userDialogsMap={this.props.userDialogsMap} departments={this.props.departments}/>
+                <CPContacts userDialogsMap={this.props.userDialogsMap} departments={this.props.departments} updateUserDialogs = {this.props.updateUserDialogs}/>
             </div>
             <div id='dialogs' style={{display:'none'}}> <CPDialog dialogs={this.props.userDialogs}/> </div>
           </div>
