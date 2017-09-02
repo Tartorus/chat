@@ -2,8 +2,9 @@ import React from 'react';
 import { Link, Redirect } from 'react-router'
 import { apiRequest, appUrls } from '../utils/request.js'
 import ChatPanel from './chatpanel.jsx'
+import ChatWindow from './chatwindow.jsx'
 
-
+// Основной управляющий копнент чата, содержащий в себе компоненты окна чата и бокой панели
 export default class Chat extends React.Component {
 
   constructor(props){
@@ -11,7 +12,18 @@ export default class Chat extends React.Component {
     this.state = {
       departments: [],
       dialogs: [],
-      userDialogsMap: {}
+      userDialogsMap: {},
+      activeDialog: null,
+      dialogMessageMap: {}
+    }
+  }
+
+  selectDialog(){
+    var that = this;
+    return function(dialog_id) {
+      return function(){
+        that.setState({activeDialog: dialog_id})
+      }
     }
   }
 
@@ -22,7 +34,23 @@ export default class Chat extends React.Component {
     }
   }
 
+  updateUserDialogsMap(dialogs){
+    let _userDialogsMap = {};
+
+    for (var i = 0; i < dialogs.length; i++) {
+      let dialog = dialogs[i];
+
+      for (var j = 0; j < dialog.members.length; j++) {
+        if (dialog.group === false){
+          _userDialogsMap[dialog.members[j].user] = dialog
+        }
+      }
+    }
+    this.setState({userDialogsMap: _userDialogsMap})
+  }
+
   componentWillMount(){
+    // get departmentList
     var response = apiRequest(appUrls['departmentList'], 'get', null, {'user':false})
       .then(response =>
         {
@@ -41,7 +69,7 @@ export default class Chat extends React.Component {
         console.log(data);
         this.setState({departments:data})
       });
-
+    // get dialogList
     apiRequest(appUrls['dialogList'] ,'get')
       .then(response =>
         {  if (response.status == 200){
@@ -56,18 +84,8 @@ export default class Chat extends React.Component {
       })
       .then(data => {
         this.setState({dialogs:data});
-        let _userDialogsMap = {};
+        this.updateUserDialogsMap(data);
 
-        for (var i = 0; i < data.length; i++) {
-          let dialog = data[i];
-
-          for (var j = 0; j < dialog.members.length; j++) {
-            if (dialog.group === false){
-              _userDialogsMap[dialog.members[j].user] = dialog
-            }
-          }
-        }
-        this.setState({userDialogsMap: _userDialogsMap})
       })
     };
 
@@ -90,10 +108,16 @@ export default class Chat extends React.Component {
         <div className='row'>
 
           <div className='col-xs-3'>
-            <ChatPanel departments={this.state.departments} userDialogs={this.state.dialogs} userDialogsMap={this.state.userDialogsMap} updateUserDialogs = {this.updateUserDialogs()}/>
+            <ChatPanel selectDialog={this.selectDialog()}
+               departments={this.state.departments}
+               userDialogs={this.state.dialogs}
+               userDialogsMap={this.state.userDialogsMap}
+               updateUserDialogs = {this.updateUserDialogs()}
+               activeDialog = {this.state.activeDialog}
+             />
           </div>
 
-          <div className='col-xs-9 chatWindow'> dialogs </div>
+          <div className='col-xs-9 chatWindow'> <ChatWindow/> </div>
           <p><button onClick={this.logout.bind(this)}>logout</button></p>
         </div>
       );

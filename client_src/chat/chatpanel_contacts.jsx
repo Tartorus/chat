@@ -10,6 +10,7 @@ export default class CPContacts extends React.Component {
   }
 
   openDialog(user){
+
     let that = this;
     return function() {
       let userDialogsMap = that.props.userDialogsMap;
@@ -26,12 +27,14 @@ export default class CPContacts extends React.Component {
         ).catch(error => {
           console.error(error);
         })
-        .then(data => that.props.updateUserDialogs(data))
+        .then(data => {
+          that.props.updateUserDialogs(data);
+        })
       }
-      else {
-        console.log(userDialogsMap[user.id]);
+      else{
+        that.props.selectDialog(userDialogsMap[user.id].id)();
       }
-
+      that.props.changeTab('dialogs')();
     }
   }
 

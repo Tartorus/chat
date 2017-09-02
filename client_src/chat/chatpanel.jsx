@@ -5,6 +5,7 @@ import CPTooBar from './chatpanel_toolbar.jsx'
 import CPDialog from './chatpanel_dialog.jsx'
 import CPContacts from './chatpanel_contacts.jsx'
 
+// управляющий компонент боковой панели.
 export default class ChatPanel extends React.Component {
 
   constructor(props){
@@ -14,9 +15,12 @@ export default class ChatPanel extends React.Component {
     }
   }
 
-  onClickTab(value){
+
+
+  changeTab(){
     var that = this;
-    return function() {
+    return function(value) {
+      return function() {
       that.setState({tab:value})
       var contacts = document.getElementById('contacts');
       var dialogs = document.getElementById('dialogs');
@@ -32,20 +36,26 @@ export default class ChatPanel extends React.Component {
       }
       turn_on.style.display='block';
       turn_off.style.display='none'
-    }
+    }}
   }
 
 
   render() {
-    console.log('render ChatPanel');
+    console.log('render ChatPanel ' + this.props.activeDialog);
     return (
       <div>
-        <CPTooBar tab={this.state.tab} contactButton={this.onClickTab('contacts')} dialogButton={this.onClickTab('dialogs')}/>
+        <CPTooBar tab={this.state.tab} changeTab={this.changeTab()}/>
           <div>
             <div id='contacts'>
-                <CPContacts userDialogsMap={this.props.userDialogsMap} departments={this.props.departments} updateUserDialogs = {this.props.updateUserDialogs}/>
+                <CPContacts changeTab={this.changeTab()} userDialogsMap={this.props.userDialogsMap} departments={this.props.departments} updateUserDialogs = {this.props.updateUserDialogs} selectDialog={this.props.selectDialog}/>
             </div>
-            <div id='dialogs' style={{display:'none'}}> <CPDialog dialogs={this.props.userDialogs}/> </div>
+            <div id='dialogs' style={{display:'none'}}>
+               <CPDialog
+                 dialogs={this.props.userDialogs}
+                 activeDialog={this.props.activeDialog}
+                 selectDialog={this.props.selectDialog}
+               />
+           </div>
           </div>
       </div>
     )
