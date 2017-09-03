@@ -12,9 +12,26 @@ export default class Reg extends React.Component {
       name: '',
       surname: '',
       email: '',
-      department: ''
+      department: {name:"Choose department", id:null},
+      departmentList: [],
     };
 
+  }
+
+  componentWillMount(){
+    var response = apiRequest(appUrls['departmentList'], 'get')
+    .then(response => {
+      if (response.status == 200){
+        return response.json();
+      }
+      else {
+        throw Error(response.statusText);
+      }
+    })
+    .then(data => {
+      this.setState({departmentList:data});
+      };
+    })
   }
 
   handleChange(state) {
@@ -34,7 +51,7 @@ export default class Reg extends React.Component {
       name:this.state.name,
       surname:this.state.surname,
       email:this.state.email,
-      department:this.state.department,
+      department:this.state.department.id,
     }
 
     apiRequest(appUrls['user'], 'post', data)
@@ -61,7 +78,42 @@ export default class Reg extends React.Component {
              <p> <label htmlFor='name'>Name</label> <input id='name' placeholder='name' className='form-control' type='text' value={this.state.name} onChange={this.handleChange.bind(this)('name')}/></p>
              <p> <label htmlFor='Surname'>Surname</label> <input id='Surname' placeholder='surname' className='form-control' type='text' value={this.state.surname} onChange={this.handleChange.bind(this)('surname')}/></p>
              <p> <label htmlFor='Email'>Email</label> <input id='Email' placeholder='email' className='form-control' type='text' value={this.state.email} onChange={this.handleChange.bind(this)('email')}/></p>
-             <p> <label htmlFor='Department'>Department</label> <input id='Department' placeholder='department' className='form-control' type='text' value={this.state.department} onChange={this.handleChange.bind(this)('department')}/></p>
+
+
+             <label htmlFor='Department'>Department</label>
+             <div className="dropdown">
+               <button className="btn btn-default dropdown-toggle"
+                  type="button"
+                  id="dropdownMenu1"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="true">
+                 {this.state.department.name}
+                 <span className="caret"></span>
+               </button>
+              <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
+                {
+                  this.state.departmentList.map(department =>
+                    <li key={department.id}
+                      onClick={() => {
+                        this.setState({department:
+                          {
+                            name:department.name,
+                            id:department.id
+                          }
+                        }
+                      )
+                      }
+                    }
+                    >
+                      {department.name}
+                    </li>
+                  )
+                }
+              </ul>
+            </div>
+
+
              <p><input type='submit' className='btn btn-default'/></p>
            </form>
          </div>
