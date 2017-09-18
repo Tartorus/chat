@@ -15,6 +15,7 @@ class DialogList(APIView):
     """Список диалогов пользователя"""
 
     authentication_classes = (CsrfExemptSessionAuth,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, format=None):
         dialogs = Dialog.objects.filter(members__user_id = request.user.id).all()
@@ -27,11 +28,19 @@ class DialogList(APIView):
             group = False if len(users) == 1 else True
             users = User.objects.filter(id__in=users).all()
             dialog_name = ' '.join([request.user.get_full_name()] + [u.get_full_name() for u in users])
+            if group:
+                # Создание конференции
+                print('GROUP')
+            else:
+                print('DIALOG')
+                print(Dialog.objects.filter(group=False).exists())
+
             dialog = Dialog(creator=request.user, name=dialog_name, group=group)
             dialog.save()
             DialogMember(dialog=dialog, user=request.user).save()
             for u in users:
                 DialogMember(dialog=dialog, user=u).save()
+
 
         dialogs = Dialog.objects.filter(members__user_id = request.user.id).all()
         return Response(DialogMemberSerializer(dialogs, many=True).data)

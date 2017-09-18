@@ -28,13 +28,19 @@ export default class Chat extends React.Component {
   }
 
   updateUserDialogs(){
+    // Обновление списка диалогов пользователя.
+    // newDialogs: [{ }, ]
     var that = this;
     return function (newDialogs) {
+
+      console.log(newDialogs);
       that.setState({dialogs:newDialogs})
+      that.updateUserDialogsMap(newDialogs);
     }
   }
 
   updateUserDialogsMap(dialogs){
+    //
     let _userDialogsMap = {};
 
     for (var i = 0; i < dialogs.length; i++) {
@@ -71,15 +77,18 @@ export default class Chat extends React.Component {
       });
     // get dialogList
     apiRequest(appUrls['dialogList'] ,'get')
-      .then(response =>
-        {  if (response.status == 200){
-            return response.json();
-          }
-          else {
-              throw Error(response.statusText);
-          }
+      .then(response =>{
+        switch (response.status) {
+          case 200:
+          return response.json();
+          case 403:
+          this.context.router.push('/login')
+          break;
+          default:
+          throw Error(response.statusText);
         }
-      ).catch(error => {
+      })
+      .catch(error => {
         console.error(error);
       })
       .then(data => {

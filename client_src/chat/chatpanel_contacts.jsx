@@ -29,6 +29,7 @@ export default class CPContacts extends React.Component {
         })
         .then(data => {
           that.props.updateUserDialogs(data);
+          that.props.selectDialog(that.props.userDialogsMap[user.id].id)();
         })
       }
       else{

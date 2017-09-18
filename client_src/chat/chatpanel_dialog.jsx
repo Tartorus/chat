@@ -10,7 +10,7 @@ export default class CPDialog extends React.Component{
   }
 
   render(){
-    console.log('render CPDialog ' + this.props.activeDialog);
+    console.log('render CPDialog ' + this.props.dialogs);
     return(
       <ul className='dialogList'>
         {
